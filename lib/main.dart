@@ -124,8 +124,17 @@ class PanelTwo extends StatelessWidget {
       height: 300,
       padding: const EdgeInsets.all(8.0),
       color: Colors.green,
-      child: const Center(
-        child: Text('no input'),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            TextButton(
+              autofocus: true,
+              onPressed: () {},
+              child: const Text('Dummy')
+            ),
+            const Text('no input'),
+          ],
+        ),
       ),
     );
   }
