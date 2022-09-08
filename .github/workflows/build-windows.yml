@@ -22,13 +22,14 @@ jobs:
       - name: setup flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.3.x'
           channel: 'stable'
           
       - name: enable flutter desktop support
         run: flutter config --enable-windows-desktop
 
       - name: build flutter app
-        run: flutter build -windows
+        run: flutter build windows
         
       - name: upload app (internal)
         uses: actions/upload-artifact@v2
