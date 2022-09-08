@@ -35,5 +35,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: flutter_textfield_test
-          path: flutter_textfield_test\build\windows\runner\Release
+          path: build\windows\runner\Release
           retention-days: 1
