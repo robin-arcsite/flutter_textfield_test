@@ -4,6 +4,10 @@ void main() {
   runApp(const MyApp());
 }
 
+class InputBoxDeactivateNotification extends Notification {
+  InputBoxDeactivateNotification();
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -30,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool panelOne = true;
+  final FocusNode _dummyButton = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +42,39 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            panelOne ? PanelOne() : PanelTwo(),
-            const SizedBox(
-              height: 20,
-            ),
-            TextButton(
-              autofocus: false,
-              style: TextButton.styleFrom(
-                textStyle:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+      body: NotificationListener<InputBoxDeactivateNotification>(
+        onNotification: (notification) {
+          _dummyButton.requestFocus();
+          return true;
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              panelOne ? PanelOne() : PanelTwo(),
+              const SizedBox(
+                height: 20,
               ),
-              onPressed: () {
-                setState(() {
-                  panelOne = !panelOne;
-                });
-              },
-              child: const Text('NEXT'),
-            ),
-          ],
+              TextButton(
+                autofocus: false,
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  setState(() {
+                    panelOne = !panelOne;
+                  });
+                },
+                child: const Text('NEXT'),
+              ),
+              const SizedBox(height: 20),
+              TextButton(
+                  focusNode: _dummyButton,
+                  onPressed: () {},
+                  child: const Text('dummy')),
+            ],
+          ),
         ),
       ),
     );
@@ -87,8 +103,12 @@ class _InputBoxState extends State<InputBox> {
   void deactivate() {
     debugPrint('_InputBoxState.deactivate()');
     if (_inputBox.hasPrimaryFocus) {
-      debugPrint('will unfocus input box');
-      _inputBox.unfocus();
+      // debugPrint('will unfocus input box');
+      // _inputBox.unfocus();
+
+      debugPrint('will dispatch InputBoxDeactivateNotification');
+      InputBoxDeactivateNotification n = InputBoxDeactivateNotification();
+      n.dispatch(context);
     }
     super.deactivate();
   }
@@ -127,11 +147,11 @@ class PanelTwo extends StatelessWidget {
       child: Center(
         child: Column(
           children: <Widget>[
-            TextButton(
-              autofocus: true,
-              onPressed: () {},
-              child: const Text('Dummy')
-            ),
+            // TextButton(
+            //   autofocus: true,
+            //   onPressed: () {},
+            //   child: const Text('Dummy')
+            // ),
             const Text('no input'),
           ],
         ),
