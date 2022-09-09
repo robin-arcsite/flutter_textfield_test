@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:caret/caret.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,9 +107,11 @@ class _InputBoxState extends State<InputBox> {
       // debugPrint('will unfocus input box');
       // _inputBox.unfocus();
 
-      debugPrint('will dispatch InputBoxDeactivateNotification');
-      InputBoxDeactivateNotification n = InputBoxDeactivateNotification();
-      n.dispatch(context);
+      // debugPrint('will dispatch InputBoxDeactivateNotification');
+      // InputBoxDeactivateNotification n = InputBoxDeactivateNotification();
+      // n.dispatch(context);
+
+      Caret.destroyCaret();
     }
     super.deactivate();
   }
